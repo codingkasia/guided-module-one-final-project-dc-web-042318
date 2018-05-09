@@ -1,5 +1,5 @@
 require_relative '../config/environment.rb'
-
+require 'pry'
 # def get_user_favorite_food
 #   favorite_food = gets.chomp("What's your favorite food?")
 #   # pizza
@@ -15,3 +15,5 @@ require_relative '../config/environment.rb'
 #   spice_girls.song_list += new_song
 #   spice_girls.save()
 # end
+binding.pry 
+puts "done"
