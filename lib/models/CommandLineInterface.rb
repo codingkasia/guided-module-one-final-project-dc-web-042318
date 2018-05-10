@@ -5,6 +5,7 @@ class CommandLineInterface
   @@calorie_foods = []
   @@price_foods = []
   @@selection = []
+  @@customer
 
   def greet
     puts "Welcome to Big Papis!"
@@ -59,7 +60,7 @@ class CommandLineInterface
   def customer_question
     puts "What's your email address?"
     user_input = gets_user_input
-    Customer.find_or_create_by(email: user_input)
+    @@customer = Customer.find_or_create_by(email: user_input)
   end
 
   def vegetarian_question
@@ -107,16 +108,23 @@ class CommandLineInterface
   def still_picky
     puts "Still can't decide? (y/n)"
     user_input = gets_user_input
-    puts "Here are the dish(es) that fit all of your preferences!"
-    if user_input == "y"
+    if user_input != "y"
+      puts "Great!"
+    elsif user_input == "y"
       appropriate_dishes = @@veg_foods[0] & @@spicy_foods[0] & @@calorie_foods[0] & @@price_foods[0]
       @@selection << appropriate_dishes
-      appropriate_dishes.each_with_index do |dish, index|
-        puts "#{index + 1}.  #{dish.name}"
-      end
-      # appropriate_dishes.each {|v| puts v.name}
-    else user_input == "n"
-      puts "Great!"
+
+        if @@selection.empty?
+          puts "We are really sorry but we couldn't find any food that matches all your preferences"
+        else 
+          puts "Here are the dish(es) that fit all of your preferences!"
+          
+            appropriate_dishes.each_with_index do |dish, index|
+              puts "#{index + 1}.  #{dish.name}"
+            end
+        end
+      else
+        puts "Invalid option! Please enter 'y' or 'n'"
     end
   end
 
@@ -124,13 +132,9 @@ class CommandLineInterface
     puts "Which one of these would you like to order?"
 
     user_input = gets_user_input
+    chosen_dish = @@selection[0][user_input.to_i - 1]
+     puts "Awesome! Your #{@@selection[0][user_input.to_i - 1].name} is on the way!"
 
-  end
-
-#   def selector(arr)
-#   arr.each_with_index do |element, index|
-#     puts "#{index+1}.    #{element}"
-#   end
-# end
-
+    Order.find_or_create_by(dish_id: chosen_dish.id, customer_id: @@customer.id)
+    end    
 end
