@@ -4,6 +4,7 @@ class CommandLineInterface
   @@spicy_foods = []
   @@calorie_foods = []
   @@price_foods = []
+  @@selection = []
 
   def greet
     puts "Welcome to Big Papis!"
@@ -26,6 +27,10 @@ class CommandLineInterface
     @@price_foods
   end
 
+  def selection
+    @@selection
+  end
+
 
   def gets_user_input
     user_input = gets.chomp.downcase
@@ -37,11 +42,12 @@ class CommandLineInterface
     greet
     name_question
     customer_question
-    vegetarian_question
     spicy_question
     calorie_question
     price_question
+    vegetarian_question
     still_picky
+    choose_dish
   end
 
   def name_question
@@ -104,10 +110,27 @@ class CommandLineInterface
     puts "Here are the dish(es) that fit all of your preferences!"
     if user_input == "y"
       appropriate_dishes = @@veg_foods[0] & @@spicy_foods[0] & @@calorie_foods[0] & @@price_foods[0]
-      appropriate_dishes.each {|v| puts v.name}
+      @@selection << appropriate_dishes
+      appropriate_dishes.each_with_index do |dish, index|
+        puts "#{index + 1}.  #{dish.name}"
+      end
+      # appropriate_dishes.each {|v| puts v.name}
     else user_input == "n"
       puts "Great!"
     end
   end
+
+  def choose_dish
+    puts "Which one of these would you like to order?"
+
+    user_input = gets_user_input
+
+  end
+
+#   def selector(arr)
+#   arr.each_with_index do |element, index|
+#     puts "#{index+1}.    #{element}"
+#   end
+# end
 
 end
