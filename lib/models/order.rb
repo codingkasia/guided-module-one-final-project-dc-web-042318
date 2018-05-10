@@ -1,4 +1,4 @@
 class Order < ActiveRecord::Base
-    belongs_to :dishes
-    belongs_to :customers
+    belongs_to :dish
+    belongs_to :customer
 end
