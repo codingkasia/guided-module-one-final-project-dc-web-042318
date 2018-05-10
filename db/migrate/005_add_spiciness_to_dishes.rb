@@ -1,4 +1,4 @@
-class AddColSpicinessToDishes < ActiveRecord::Migration[5.2]
+class AddSpicinessToDishes < ActiveRecord::Migration[5.0]
   def change
     add_column :dishes, :spiciness, :integer
   end
