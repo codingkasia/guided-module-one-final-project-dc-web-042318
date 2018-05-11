@@ -120,6 +120,10 @@ class CommandLineInterface
   def price_question
     puts "What's the max you want to spend for your dish?"
     user_input = gets_user_input
+    if user_input.to_i < 3
+      puts "Please enter a price higher than $3"
+      price_question
+    end
     appropriate_dishes = Dish.all.select {|dish| dish.price <= user_input.to_i}
     @@price_foods << appropriate_dishes
     appropriate_dishes.each {|v| puts v.name}
